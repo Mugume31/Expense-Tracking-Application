@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <?!= include('Style'); ?> <!-- Include shared style -->
+  <?!= include('Javascript'); ?> <!-- Include shared Javascript -->
+</head>
+<body>
+  <h2> Inventory Form</h2>
+  <form id="form">
+    <div id="entry-container">
+      <div class="entry-row">
+        <label for="date0">Date:</label>
+        <input type="date" id="date0" required><br><br>
+
+        <label for="type0">Type:</label>
+        <select id="type0" onchange="fetchParticulars(0)" required>
+          <option value="">Select Type</option>
+          <option value="Cost">Cost</option>
+          <option value="Income">Income</option>
+        </select><br><br>
+
+        <label for="department0">Department:</label>
+        <select id="department0" onchange="fetchParticulars(0)" required>
+          <option value="">Loading departments...</option>
+        </select><br><br>
+
+        <label for="particular0">Particular:</label>
+        <select id="particular0" required>
+          <option value="">Select Particular</option>
+        </select><br><br>
+
+        <label for="unitPrice0">Unit Price:</label>
+        <input type="number" id="unitPrice0" min="0" step="0.01" oninput="calculateAmount(0)" required><br><br>
+
+        <label for="quantity0">Quantity:</label>
+        <input type="number" id="quantity0" min="1" step="1" oninput="calculateAmount(0)" required><br><br>
+
+        <label for="amount0">Amount:</label>
+        <input type="number" id="amount0" min="0" step="0.01" readonly required><br><br>
+
+        <label for="comment0">Comment:</label>
+        <textarea id="comment0"></textarea><br><br>
+
+        <button type="button" onclick="addEntryToTable(0)">Add Entry</button>
+      </div>
+    </div>
+
+    <table id="entriesTable" border="1" style="width: 100%;">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Department</th>
+          <th>Particular</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Amount</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table><br>
+
+    <button type="button" onclick="submitEntries()">Submit All</button>
+  </form>
+</body>
+</html>
