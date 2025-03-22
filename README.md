@@ -17,6 +17,5 @@ This is a Google Apps Script-powered web form for tracking business expenses and
 - 🧮 Automatic calculation of Amount (Unit Price × Quantity)
 - 📥 Saves transactions to a "Transactions" sheet
 - 📊 Works with a "Particulars" lookup sheet to maintain consistency
-- 🖥️ Available as a modal dialog from the custom menu in Google Sheets
 
 
