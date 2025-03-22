@@ -1,0 +1,109 @@
+<script>
+
+var entriesList = [];
+
+function fetchParticulars(index) {
+      var type = document.getElementById('type' + index).value;
+      var department = document.getElementById('department' + index).value;
+
+      if (!type || !department) {
+        return;
+      }
+
+      google.script.run.withSuccessHandler(function(particulars) {
+        updateParticularsDropdown(particulars, index);
+      }).getParticulars(type, department);
+}
+
+function updateParticularsDropdown(particulars, index) {
+      var select = document.getElementById('particular' + index);
+      select.innerHTML = '<option value="">Select Particular</option>';
+
+      particulars.forEach(function(part) {
+        var option = document.createElement('option');
+        option.value = part;
+        option.textContent = part;
+        select.appendChild(option);
+      });
+}
+
+function calculateAmount(index) {
+      var unitPrice = parseFloat(document.getElementById('unitPrice' + index).value) || 0;
+      var quantity = parseFloat(document.getElementById('quantity' + index).value) || 0;
+      document.getElementById('amount' + index).value = (unitPrice * quantity).toFixed(2);
+}
+
+function addEntryToTable(index) {
+      var entry = {
+        date: document.getElementById('date' + index).value,
+        type: document.getElementById('type' + index).value,
+        department: document.getElementById('department' + index).value,
+        particular: document.getElementById('particular' + index).value,
+        unitPrice: parseFloat(document.getElementById('unitPrice' + index).value) || 0,
+        quantity: parseFloat(document.getElementById('quantity' + index).value) || 0,
+        amount: parseFloat(document.getElementById('amount' + index).value) || 0,
+        comment: document.getElementById('comment' + index).value
+      };
+
+      if (!entry.date || !entry.type || !entry.department || !entry.particular || entry.unitPrice <= 0 || entry.quantity <= 0) {
+        alert("Please fill in all required fields correctly.");
+        return;
+      }
+
+      var table = document.getElementById('entriesTable').getElementsByTagName('tbody')[0];
+      var newRow = table.insertRow();
+      newRow.innerHTML = `
+        <td>${entry.date}</td>
+        <td>${entry.type}</td>
+        <td>${entry.department}</td>
+        <td>${entry.particular}</td>
+        <td>${entry.quantity}</td>
+        <td>${entry.unitPrice.toFixed(2)}</td>
+        <td>${entry.amount.toFixed(2)}</td>
+        <td>${entry.comment}</td>
+      `;
+
+      entriesList.push(entry);
+      resetForm(index);
+}
+
+function resetForm(index) {
+      document.getElementById('date' + index).value = "";
+      document.getElementById('type' + index).value = "";
+      document.getElementById('department' + index).value = "";
+      document.getElementById('particular' + index).innerHTML = '<option value="">Select Particular</option>';
+      document.getElementById('unitPrice' + index).value = "";
+      document.getElementById('quantity' + index).value = "";
+      document.getElementById('amount' + index).value = "";
+      document.getElementById('comment' + index).value = "";
+    }
+
+    function submitEntries() {
+      if (entriesList.length === 0) {
+        alert("No entries to submit.");
+        return;
+      }
+
+      google.script.run.withSuccessHandler(function() {
+        alert("Entries submitted successfully!");
+        document.getElementById('entriesTable').getElementsByTagName('tbody')[0].innerHTML = "";
+        entriesList = [];
+      }).submitEntries(entriesList);
+  }
+  // ✅ Load departments dynamically when the page is ready
+document.addEventListener("DOMContentLoaded", function () {
+  google.script.run.withSuccessHandler(function(departments) {
+    const departmentSelect = document.getElementById("department0");
+    departmentSelect.innerHTML = '<option value="">Select Department</option>';
+
+    departments.forEach(function(dept) {
+      const option = document.createElement("option");
+      option.value = dept;
+      option.textContent = dept;
+      departmentSelect.appendChild(option);
+    });
+  }).getDepartments();
+});
+  </script>
+  
+
