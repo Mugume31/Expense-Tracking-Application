@@ -1,0 +1,39 @@
+
+---
+
+## 🔧 Setup Instructions
+
+### 1. Prepare the Google Sheet
+
+#### Sheet 1: `Particulars`
+Used for dropdown lookups:
+| Type  | Department     | Particular        |
+|-------|----------------|-------------------|
+| Cost  | Bar            | Beer              |
+| Income| Kitchen        | Meals             |
+| Cost  | Accommodation  | Cleaning Supplies |
+
+#### Sheet 2: `Transactions`
+Used to store form submissions. Example headers:
+| Date       | Type   | Department | Particular | Unit Price | Quantity | Amount | Comment |
+|------------|--------|------------|------------|------------|----------|--------|---------|
+
+---
+
+### 2. Set Up the Script
+
+1. Go to your Google Sheet → **Extensions > Apps Script**
+2. Replace the default file with `code.gs`
+3. Add three new files:
+   - `Form.html`
+   - `Javascript.html`
+   - `Style.html`
+4. Paste corresponding content into each
+
+---
+
+### 3. Connect the Script
+
+In `code.gs`, find this line:
+```javascript
+const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID';
